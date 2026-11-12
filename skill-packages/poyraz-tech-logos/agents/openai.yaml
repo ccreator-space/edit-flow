@@ -1,0 +1,4 @@
+interface:
+  display_name: "Poyraz Teknoloji Logoları"
+  short_description: "Gerçek güncel logoları konuşmayla eşleştir"
+  default_prompt: "$poyraz-tech-logos ile transkriptte geçen teknoloji markalarını resmî kaynaklardan doğrula ve gerçek logolarını zamanlı görsel plana ekle."

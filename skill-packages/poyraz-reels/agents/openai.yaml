@@ -1,0 +1,4 @@
+interface:
+  display_name: "Poyraz Reels ve Yatay Video"
+  short_description: "3D Reels, akıcı hook/CTA ve gerçek teknoloji logoları"
+  default_prompt: "$poyraz-reels ile kesilmiş videomun oranına göre Reels veya 16:9 giriş–çıkış modunu seç; transkript, gerçek logo envanteri, bağlama göre gelişen motion ve kontrol edilmiş son MP4 çıktısını hazırla."

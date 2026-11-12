@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import {validateRaw} from './validate_raw_edit.mjs';
+const edl={fps:30,sourceSha256:'test',sourceDuration:3,duration:1,keeps:[{sourceStart:1,sourceEnd:2,start:0,end:1}]};
+const word={text:'Merhaba',sourceStart:1.1,sourceEnd:1.5,start:.1,end:.5};
+const transcript={sourceSha256:'test',words:[word]},caps=[{start:.1,end:.6,words:[word]}];
+assert.deepEqual(validateRaw(edl,transcript,caps),[]);
+assert.ok(validateRaw(edl,transcript,[{...caps[0],words:[]}]).length);
+assert.ok(validateRaw(edl,transcript,[{...caps[0],words:[{...word,start:.4}]}]).length);
+assert.ok(validateRaw({...edl,keeps:[{...edl.keeps[0],start:1/30}]},transcript,caps).length);
+assert.ok(validateRaw(edl,{...transcript,words:[{...word,sourceEnd:2.1}]},caps).length);
+assert.ok(validateRaw({...edl,duration:0,keeps:[]},{...transcript,words:[]},[]).length);
+const overlap={text:'dünya',sourceStart:1.4,sourceEnd:1.7,start:.4,end:.7};
+assert.ok(validateRaw(edl,{...transcript,words:[word,overlap]},[{start:.1,end:.8,words:[word,overlap]}]).some(x=>x.includes('overlapping')));
+const zero={...word,end:word.start,sourceEnd:word.sourceStart};
+assert.ok(validateRaw(edl,{...transcript,words:[zero]},[{start:.1,end:.6,words:[zero]}]).some(x=>x.includes('Invalid')));
+console.log('Raw edit validator: positive case + 7 negative controls passed');

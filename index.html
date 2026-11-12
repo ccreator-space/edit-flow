@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #000;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      code,
+      pre,
+      .monospace {
+        font-family: "JetBrains Mono", monospace;
+      }
+      .clip {
+        position: absolute;
+        inset: 0;
+      }
+      .smoke-scene {
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+      }
+      .smoke-bg {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(circle at 50% 38%, rgba(123, 97, 255, 0.22), transparent 34%),
+          linear-gradient(160deg, #101018 0%, #050507 58%, #000 100%);
+      }
+      .smoke-grid {
+        position: absolute;
+        inset: 0;
+        opacity: 0.12;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+        background-size: 72px 72px;
+        mask-image: linear-gradient(to bottom, transparent 5%, #000 35%, transparent 92%);
+      }
+      .smoke-glow {
+        position: absolute;
+        width: 780px;
+        height: 780px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(97, 70, 255, 0.28), transparent 66%);
+        will-change: transform, opacity;
+      }
+      .smoke-card {
+        position: relative;
+        z-index: 2;
+        width: 860px;
+        padding: 76px 64px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 48px;
+        background: rgba(14, 14, 22, 0.82);
+        box-shadow: 0 36px 120px rgba(0, 0, 0, 0.52);
+        text-align: center;
+        transform-origin: 50% 50%;
+        will-change: transform, opacity;
+      }
+      .smoke-kicker {
+        color: #a99dff;
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+      }
+      .smoke-title {
+        margin-top: 30px;
+        color: #fff;
+        font-size: 104px;
+        font-weight: 800;
+        letter-spacing: -0.055em;
+        line-height: 0.95;
+      }
+      .smoke-copy {
+        margin: 38px auto 0;
+        max-width: 660px;
+        color: #b8b8c8;
+        font-size: 34px;
+        line-height: 1.35;
+      }
+      .smoke-badges {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        margin-top: 46px;
+      }
+      .smoke-badge {
+        padding: 14px 22px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        color: #e7e5ff;
+        font-size: 24px;
+        font-weight: 650;
+        will-change: transform, opacity;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="6"
+      data-width="1080"
+      data-height="1920"
+    >
+      <section
+        id="smoke-scene"
+        class="clip smoke-scene"
+        data-start="0"
+        data-duration="6"
+        data-track-index="0"
+      >
+        <div class="smoke-bg"></div>
+        <div class="smoke-grid" data-layout-ignore></div>
+        <div id="smoke-glow" class="smoke-glow" data-layout-ignore></div>
+        <div id="smoke-card" class="smoke-card">
+          <div class="smoke-kicker">HyperFrames</div>
+          <h1 class="smoke-title">Reels setup ready.</h1>
+          <p class="smoke-copy">1080 × 1920 portrait workspace configured for your next edit.</p>
+          <div class="smoke-badges">
+            <span class="smoke-badge">45–65 sec</span>
+            <span class="smoke-badge">Captions</span>
+            <span class="smoke-badge">Motion</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo(
+        "#smoke-card",
+        { scale: 0.84, opacity: 0, y: 26 },
+        { scale: 1, opacity: 1, y: 0, duration: 0.65, ease: "power3.out" },
+        0.15,
+      );
+      tl.fromTo(
+        "#smoke-glow",
+        { scale: 0.82, opacity: 0 },
+        { scale: 1, opacity: 0.3, duration: 0.8, ease: "power2.out" },
+        0.1,
+      );
+      document.querySelectorAll(".smoke-badge").forEach((badge, index) => {
+        tl.fromTo(
+          badge,
+          { scale: 0.82, opacity: 0, y: 12 },
+          { scale: 1, opacity: 1, y: 0, duration: 0.45, ease: "power3.out" },
+          0.62 + index * 0.07,
+        );
+      });
+      const glow = document.getElementById("smoke-glow");
+      const phase = { p: 0 };
+      tl.to(
+        phase,
+        {
+          p: Math.PI * 4,
+          duration: 5,
+          ease: "none",
+          onUpdate: () => {
+            const wave = Math.sin(phase.p);
+            glow.style.opacity = String(0.3 + wave * 0.025);
+            glow.style.transform = `scale(${1 + wave * 0.018})`;
+          },
+        },
+        0.9,
+      );
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

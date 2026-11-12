@@ -1,0 +1,39 @@
+{
+  "sourceSha256": "574607f84318dbf5e8be9b67e6477c72d02908acee0de48754673e36548969cb",
+  "sourcePath": "qa/poyraz-reels-skill/asr-sample.wav",
+  "language": "tr",
+  "provider": "faster-whisper large-v3 local CPU int8",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 1.66,
+      "text": "O zaman görüşmek üzere."
+    }
+  ],
+  "words": [
+    {
+      "text": "O",
+      "start": 0.0,
+      "end": 0.32,
+      "probability": 0.942896842956543
+    },
+    {
+      "text": "zaman",
+      "start": 0.32,
+      "end": 0.64,
+      "probability": 0.9934414625167847
+    },
+    {
+      "text": "görüşmek",
+      "start": 0.64,
+      "end": 1.42,
+      "probability": 0.987497091293335
+    },
+    {
+      "text": "üzere.",
+      "start": 1.42,
+      "end": 1.66,
+      "probability": 0.9999740123748779
+    }
+  ]
+}
